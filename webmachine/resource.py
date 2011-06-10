@@ -605,6 +605,9 @@ class Resource(object):
         ctypes = [ct for (ct, func) in (self.content_types_provided(req, resp) or [])]
         if len(ctypes):
             ctype = ctypes[0]
+            request_accept = req.META.get('ACCEPT', '')
+            if request_accept in ctypes:
+                ctype = request_accept
             if not ctype:
                 ctype = resp.default_content_type 
             resp.content_type = ctype
